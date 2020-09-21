@@ -28,7 +28,6 @@ public class MessageController {
         //cloudantService.insertDocument(messageEntity);
         System.out.println(messageEntity.getBody());
         String response=messageService.sendMessageToWatson(messageEntity);
-        //return "hahaha!!!";
         return response;
     }
 
