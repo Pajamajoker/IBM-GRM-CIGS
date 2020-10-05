@@ -91,8 +91,13 @@ public class MessageService {
 
         //create text
         try {
+            MessageInputOptions inputOptions = new MessageInputOptions.Builder()
+                    .returnContext(true)
+                    .build();
+
             MessageInput input = new MessageInput.Builder()
                 .text(messageEntity.getBody())
+                .options(inputOptions)
                 .build();
             // Start conversation with message from messageEntity.
             MessageOptions messageOptions = new MessageOptions.Builder(assistantId,
