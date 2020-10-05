@@ -1,0 +1,7 @@
+POST http://localhost:8080/whatsapp/send
+Content-Type: application/json
+
+{
+    "body":"I said hi",
+    "number":"whatsapp:+919022149921"
+}
