@@ -5,8 +5,10 @@ import java.io.IOException;
 import com.ibm.cigs.entity.MessageEntity;
 import com.ibm.cigs.service.CloudantService;
 import com.ibm.cigs.service.MessageService;
+import com.ibm.cigs.service.WatsonService;
 import com.twilio.rest.api.v2010.account.Message;
 
+import jdk.nashorn.internal.runtime.regexp.joni.WarnCallback;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +24,24 @@ public class MessageController {
     private CloudantService cloudantService;
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private WatsonService assistantService;
 
     @PostMapping(path = "/whatsapp/recv", consumes = "application/x-www-form-urlencoded")
-    public String RecieveMessage(MessageEntity messageEntity) throws IOException {
-        //cloudantService.insertDocument(messageEntity);
+    public String receiveMessage(MessageEntity messageEntity) throws Exception {
         System.out.println(messageEntity.getBody());
-        String response=messageService.sendMessageToWatson(messageEntity);
-        return response;
+        String[] responses = assistantService.processMessage(messageEntity);
+        String sessionId = responses[0];
+        //dump incoming message and session ID;
+        cloudantService.insertDocument(messageEntity, sessionId);
+        //dump outgoing message and session ID;
+        cloudantService.insertDocument(messageEntity, sessionId, responses[1]);
+        return responses[1];
     }
 
     @PostMapping(path = "/whatsapp/send", consumes = "application/json")
-    public String SendMessage(@RequestBody Request req) {
+    public String sendMessage(@RequestBody Request req) {
         Message message = messageService.sendMessageToUser(req.getBody(), req.getNumber());
-        //cloudantService.insertDocument(message);
         return message.getBody();
     }
 
