@@ -1,0 +1,29 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.4.BUILD-SNAPSHOT'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+}
+
+group = 'com.ibm'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation group: "com.twilio.sdk", name: "twilio", version: "7.55.0"
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	compile group: "com.cloudant", name:"cloudant-spring-boot-starter", version:"0.0.3"
+}
+
+test {
+	useJUnitPlatform()
+}
