@@ -5,25 +5,23 @@ import java.sql.Timestamp;
 import com.twilio.rest.api.v2010.account.Message;
 
 public class Document {
-    String From, To, Body, SmsMessageSid, SessionId;
+    String From, To, Body, SmsMessageSid;
     Timestamp timestamp;
 
-    public Document(MessageEntity messageEntity, String sessionId) {
+    public Document(MessageEntity messageEntity) {
         this.From = messageEntity.From;
         this.To = messageEntity.To;
         this.Body = messageEntity.Body;
         this.SmsMessageSid = messageEntity.SmsMessageSid;
-        this.SessionId = sessionId;
         this.timestamp = new Timestamp(System.currentTimeMillis());
     }
 
-    public Document(MessageEntity messageEntity, String sessionId, String body) {
-        this.From = messageEntity.To;
-        this.To = messageEntity.From;
-        this.Body = body;
-        this.SmsMessageSid = messageEntity.SmsMessageSid;
+    public Document(Message message) {
+        this.From = message.getFrom().toString();
+        this.To = message.getTo().toString();
+        this.Body = message.getBody().toString();
+        this.SmsMessageSid = message.getSid();
         this.timestamp = new Timestamp(System.currentTimeMillis());
-        this.SessionId = sessionId;
     }
 
     public Timestamp getTimestamp() {

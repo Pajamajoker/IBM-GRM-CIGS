@@ -1,7 +1,5 @@
 package com.ibm.cigs.entity;
 
-import com.twilio.rest.api.v2010.account.Message;
-
 public class MessageEntity {
     String SmsMessageSid, SmsSid, SmsStatus, Body, From, To, ApiVersion;
     Integer NumSegments;

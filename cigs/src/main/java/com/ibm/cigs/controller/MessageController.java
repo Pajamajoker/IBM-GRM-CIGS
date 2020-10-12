@@ -1,14 +1,12 @@
 package com.ibm.cigs.controller;
 
-//import java.io.IOException;
+import java.io.IOException;
 
 import com.ibm.cigs.entity.MessageEntity;
 import com.ibm.cigs.service.CloudantService;
 import com.ibm.cigs.service.MessageService;
-import com.ibm.cigs.service.WatsonService;
 import com.twilio.rest.api.v2010.account.Message;
 
-//import jdk.nashorn.internal.runtime.regexp.joni.WarnCallback;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,29 +22,16 @@ public class MessageController {
     private CloudantService cloudantService;
     @Autowired
     private MessageService messageService;
-    @Autowired
-    private WatsonService assistantService;
 
     @PostMapping(path = "/whatsapp/recv", consumes = "application/x-www-form-urlencoded")
-    public String receiveMessage(MessageEntity messageEntity) throws Exception {
-        System.out.println(messageEntity.getBody());
-        String[] responses = assistantService.processMessage(messageEntity);
-        String sessionId = responses[0];
-        //dump incoming message and session ID;
-        cloudantService.insertDocument(messageEntity, sessionId);
-        //dump outgoing message and session ID;
-        cloudantService.insertDocument(messageEntity, sessionId, responses[1]);
-        //if information from assistant is collected in context variables
-        if(!responses[2].contentEquals(""))
-        cloudantService.insertDocument(messageEntity, sessionId, responses[2]);
-	
-        return responses[1];
+    public void RecieveMessage(MessageEntity messageEntity) throws IOException {
+        cloudantService.insertDocument(messageEntity);
     }
 
     @PostMapping(path = "/whatsapp/send", consumes = "application/json")
-    public String sendMessage(@RequestBody Request req) {
+    public void SendMessage(@RequestBody Request req) {
         Message message = messageService.sendMessageToUser(req.getBody(), req.getNumber());
-        return message.getBody();
+        cloudantService.insertDocument(message);
     }
 
 }

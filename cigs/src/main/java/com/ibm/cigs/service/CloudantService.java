@@ -17,7 +17,6 @@ import com.twilio.rest.api.v2010.account.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,18 +33,16 @@ public class CloudantService {
         return instances;
     }
 
-   // @Async("threadPoolExecutor")
-    public void insertDocument(MessageEntity messageEntity, String sessionId) {
+    public void insertDocument(MessageEntity messageEntity) {
         Database database = client.database("practice_db", false);
-        Document document = new Document(messageEntity, sessionId);
+        Document document = new Document(messageEntity);
         Response ID = database.save(document);
         logger.info("Saved message: " + document.toString() + " with ID " + ID);
     }
 
-   // @Async("threadPoolExecutor")
-    public void insertDocument(MessageEntity messageEntity, String sessionId, String body) {
+    public void insertDocument(Message message) {
         Database database = client.database("practice_db", false);
-        Document document = new Document(messageEntity, sessionId, body);
+        Document document = new Document(message);
         Response ID = database.save(document);
         logger.info("Saved message: " + document.toString() + " with ID " + ID);
     }

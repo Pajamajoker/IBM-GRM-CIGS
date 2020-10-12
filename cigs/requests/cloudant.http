@@ -1,0 +1,5 @@
+GET  http://localhost:8080/messages/from/whatsapp:+14155238886
+###
+GET http://localhost:8080/instances
+
+###
