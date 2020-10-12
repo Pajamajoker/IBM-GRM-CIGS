@@ -1,6 +1,6 @@
 package com.ibm.cigs.controller;
 
-import java.io.IOException;
+//import java.io.IOException;
 
 import com.ibm.cigs.entity.MessageEntity;
 import com.ibm.cigs.service.CloudantService;
@@ -33,9 +33,13 @@ public class MessageController {
         String[] responses = assistantService.processMessage(messageEntity);
         String sessionId = responses[0];
         //dump incoming message and session ID;
-        //cloudantService.insertDocument(messageEntity, sessionId);
+        cloudantService.insertDocument(messageEntity, sessionId);
         //dump outgoing message and session ID;
-        //cloudantService.insertDocument(messageEntity, sessionId, responses[1]);
+        cloudantService.insertDocument(messageEntity, sessionId, responses[1]);
+        //if information from assistant is collected in context variables
+        if(!responses[2].contentEquals(""))
+        cloudantService.insertDocument(messageEntity, sessionId, responses[2]);
+	
         return responses[1];
     }
 

@@ -34,6 +34,21 @@ public class CloudantService {
         return instances;
     }
 
+   // @Async("threadPoolExecutor")
+    public void insertDocument(MessageEntity messageEntity, String sessionId) {
+        Database database = client.database("practice_db", false);
+        Document document = new Document(messageEntity, sessionId);
+        Response ID = database.save(document);
+        logger.info("Saved message: " + document.toString() + " with ID " + ID);
+    }
+
+   // @Async("threadPoolExecutor")
+    public void insertDocument(MessageEntity messageEntity, String sessionId, String body) {
+        Database database = client.database("practice_db", false);
+        Document document = new Document(messageEntity, sessionId, body);
+        Response ID = database.save(document);
+        logger.info("Saved message: " + document.toString() + " with ID " + ID);
+    }
 
     public List<Document> getAllMessages() {
         Database database = client.database("practice_db", false);

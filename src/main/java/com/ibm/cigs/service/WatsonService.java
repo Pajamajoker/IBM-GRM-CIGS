@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class WatsonService implements AssistantInterface {
@@ -88,17 +89,40 @@ public class WatsonService implements AssistantInterface {
             //print response from Watson to console, assumes single text response
             List<RuntimeResponseGeneric> responseGeneric = response.getOutput().getGeneric();
             
+            //Map for storing all the context variables from Watson
+            Map<String, Object> contextVariablesMap=new HashMap<String,Object>();
+            
+            //if userDefined context variables exist in Watson
+            if(response.getContext().skills().get("main skill").userDefined()!=null)
+            {
+            	//Get all context variables from Watson in a Map
+            	contextVariablesMap=response.getContext().skills().get("main skill").userDefined();
+            }
+            
+            
             //Translating text from Watson to original language 
             opMessage = ob.translateToOriginal(responseGeneric.get(0).text());
             System.out.println(opMessage);
             
+            
+            
             if(responseGeneric.size() > 0) {
-                return new String[]{sessionId, opMessage};
+            	if(!contextVariablesMap.isEmpty() && contextVariablesMap.containsKey("submitted")) {
+            		// collected info from context variables returned in string format
+            		contextVariablesMap.remove("submitted");
+            		String contextVariables=contextVariablesMap.toString();
+            		
+            		return new String[] {sessionId,opMessage,contextVariables.toString()};
+
+//                return new String[]{sessionId, opMessage};
+            }
+            else
+                return new String[]{sessionId, opMessage,""};
             }else{
-                return new String[]{sessionId, defaultResponse};
+                return new String[]{sessionId, defaultResponse,""};
             }
         } else {
-            return new String[]{"", "Thank you for your time!"};
+            return new String[]{"", "Thank you for your time!",""};
         }
     }
 
