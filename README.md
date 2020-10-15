@@ -17,16 +17,18 @@ The arhictecture of the entire system can be split into 5 modules namely :
 This is the user side of the system, all the information is retrived from this end. To ease the information gathering process, multiple & intuitive channels like Phone call ,SMS, Whatsapp, Facebook Messenger.
 
 2) **Translator**
-Since the system has miltilingual support, a translator service is used. Once a message is received from the user interface end, the message is processed by the translator service which auto-detects the language from the incoming message, translates it to english and sends the message to be processed by the Assistant, it then also translates the outgoing message (reply from assistant) from english to the original language in which the message was received.
+Since the system has miltilingual support, a translator service (By Default IBM Watson Language Translator) is used. Once a message is received from the user interface end, the message is processed by the translator service which auto-detects the language from the incoming message, translates it to english and sends the message to be processed by the Assistant, it then also translates the outgoing message (reply from assistant) from english to the original language in which the message was received.
 
 3) **Natural Language Processor/Assistant**
-The Natural Language Processor is the core module responsible for the conversation, it is also called the Assistant. The assistant is context sensitive, meaning it can understand the context of the ongoing conversation and act & reply accordingly.
+The Natural Language Processor is the core module responsible for the conversation, it is also called the Assistant (By Default IBM Watson Assistant). The assistant is context sensitive, meaning it can understand the context of the ongoing conversation and act & reply accordingly.
 
 4) **Middleware (Controller)**
 The middleware module is essentially a controller. The controller is responsible for maintaining the flow of the system's execution. All incoming requests & outgoing responses are directed through the controller.
 
 5) **Database/Storage**
-The database module is where the gathered information is stored. This can be a NoSQL or an SQL database.
+The database module is where the gathered information is stored. This can be a NoSQL (By Default IBM Cloudant) or an SQL database.
+
+Image representation is as follows: 
 
 ![alt text](architecture.jpeg)
 
