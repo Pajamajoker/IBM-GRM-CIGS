@@ -12,7 +12,7 @@ The Assistant understands the context of what the citizen wants to do and perfor
 5. Easy integration with other services using Rest APIs.
 
 ### How does it work? (Architecture):
-The arhictecture of the entire system can be split into 5 modules namely : 
+The arhictecture of the entire system can be split into 5 modules & 1 independent module namely : 
 1) **The User Interface end**
 This is the user side of the system, all the information is retrived from this end. To ease the information gathering process, multiple & intuitive channels like Phone call ,SMS, Whatsapp, Facebook Messenger.
 
@@ -31,6 +31,11 @@ The database module is where the gathered information is stored. This can be a N
 Image representation is as follows: 
 
 ![alt text](architecture.jpeg)
+
+6) **Interactive Voice Response**
+The IVR module is an independent module that is not connected to the middleware. It is directly connected to the aforementioned assistant using the IBM Voice Agent. Phone Call functionality is provided by Twilio. The incoming audio call is routed from Twilio to Voice Agent via SIP Trunking (Origination endpoint). For outbound calls the Voice Agent is directed to Twilio via the SIP Trunk(Termination endpoint). Outbound calls are not available on the free lite plan.
+
+![alt text](Architecture%20IVR%20Final.png)
 
 ### Prerequisities:
 
