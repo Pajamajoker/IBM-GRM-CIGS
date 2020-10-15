@@ -32,14 +32,10 @@ Image representation is as follows:
 
 ![alt text](architecture.jpeg)
 
-<<<<<<< HEAD
-
-=======
 6) **Interactive Voice Response**
 The IVR module is an independent module that is not connected to the middleware. It is directly connected to the aforementioned assistant using the IBM Voice Agent. Phone Call functionality is provided by Twilio. The incoming audio call is routed from Twilio to Voice Agent via SIP Trunking (Origination endpoint). For outbound calls the Voice Agent is directed to Twilio via the SIP Trunk(Termination endpoint). Outbound calls are not available on the free lite plan.
 
 ![alt text](Architecture%20IVR%20Final.png)
->>>>>>> 22241d898954d8b4735cdd2fc93c26eb1f3a9f6b
 
 ### Screenshots:
 
