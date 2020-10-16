@@ -33,9 +33,12 @@ Image representation is as follows:
 ![alt text](architecture.jpeg)
 
 6) **Interactive Voice Response**
-The IVR module is an independent module that is not connected to the middleware. It is directly connected to the aforementioned assistant using the IBM Voice Agent. Phone Call functionality is provided by Twilio. The incoming audio call is routed from Twilio to Voice Agent via SIP Trunking (Origination endpoint). For outbound calls the Voice Agent is directed to Twilio via the SIP Trunk(Termination endpoint). Outbound calls are not available on the free lite plan.
+The IVR module is an independent module that is not connected to the middleware. It is directly connected to the aforementioned assistant using the IBM Voice Agent. Phone Call functionality is provided by Twilio. The incoming audio call is routed from Twilio to Voice Agent via SIP Trunking (Origination endpoint). For outbound calls the Voice Agent is directed to Twilio via the SIP Trunk(Termination endpoint). Outbound calls, transcription and storage are not available on the free lite plan.
 
 ![alt text](Architecture%20IVR%20Final.png)
+
+Transcripts of conversations (check screenshots) have been generated using the IBM Watson Speech To Text Service. Recordings of these conversations were stored and accessed from the Twilio account(SIP Trunk->Logs->Recordings). Recording conversation on Twilio is a paid service.
+The current version of the IVR is a preliminary one and can be built upon using the Language & Acoustic models provided by the Voice Agent. Immediate transcription and Data Storage option is also provided by IBM. However, these are paid services and will require one to upgrade to a plus/premium plan.
 
 ### Screenshots:
 
