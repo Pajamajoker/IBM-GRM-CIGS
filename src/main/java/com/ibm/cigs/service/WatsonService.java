@@ -131,8 +131,8 @@ public class WatsonService implements AssistantInterface {
         String phoneNumber = messageEntity.getFrom();
         
         String messageBody = ob.translateToEnglish(messageEntity.getBody());
-        
-        if (messageBody.equals("done") || messageBody.equals("Done")) {
+        messageBody = messageBody.toLowerCase();
+        if (messageBody.equals("end conversation") || messageBody.equals("end") ||  messageBody.equals("done")) {
             DeleteSessionOptions deleteSessionOptions = new DeleteSessionOptions.Builder(assistantId, sessionId).build();
             assistant.deleteSession(deleteSessionOptions).execute();
             sessionMap.remove(phoneNumber);

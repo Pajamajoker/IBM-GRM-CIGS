@@ -42,6 +42,11 @@ The IVR module is an independent module that is not connected to the middleware.
 ![alt text](Architecture%20IVR%20Final.png)
 
 ### Screenshots:
+![alt text](s1.jpeg)
+
+![alt text](s2.jpeg)
+
+![alt text](s3.jpeg)
 
 ### Prerequisities:
 - For using IBM Watson services you will need an IBM Cloud account
