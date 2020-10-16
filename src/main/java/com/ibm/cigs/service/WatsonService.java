@@ -105,9 +105,9 @@ public class WatsonService implements AssistantInterface {
             System.out.println(opMessage);
             
             
-            
+             
             if(responseGeneric.size() > 0) {
-            	if(!contextVariablesMap.isEmpty() && contextVariablesMap.containsKey("submitted")) {
+            	if(!contextVariablesMap.isEmpty() && contextVariablesMap.containsKey("submitted") && (contextVariablesMap.get("submitted").toString().equals("1.0"))) {
             		// collected info from context variables returned in string format
             		contextVariablesMap.remove("submitted");
             		String contextVariables=contextVariablesMap.toString();
