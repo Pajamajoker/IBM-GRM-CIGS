@@ -24,7 +24,8 @@ The Natural Language Processor is the core module responsible for the conversati
 
 Image representation is as follows
 
-![alt text](Citizen%20Assistant.jpg)
+<img src="./Images/Citizen%20Assistant.jpg" alt="drawing" height = "100%" width="75%"/>
+
 
 4) **Middleware (Controller)**
 The middleware module is essentially a controller. The controller is responsible for maintaining the flow of the system's execution. All incoming requests & outgoing responses are directed through the controller.
@@ -34,19 +35,31 @@ The database module is where the gathered information is stored. This can be a N
 
 Image representation is as follows: 
 
-![alt text](architecture.jpeg)
+<img src="./Images/architecture.jpeg" alt="drawing" height = "75%" width="75%"/>
+
 
 6) **Interactive Voice Response**
 The IVR module is an independent module that is not connected to the middleware. It is directly connected to the aforementioned assistant using the IBM Voice Agent. Phone Call functionality is provided by Twilio. The incoming audio call is routed from Twilio to Voice Agent via SIP Trunking (Origination endpoint). For outbound calls the Voice Agent is directed to Twilio via the SIP Trunk(Termination endpoint). Outbound calls are not available on the free lite plan.
 
-![alt text](Architecture%20IVR%20Final.png)
+<img src="./Images/Architecture%20IVR%20Final.png" alt="drawing" height = "75%" width="75%"/>
+
 
 ### Screenshots:
-![alt text](s1.jpeg)
 
-![alt text](s2.jpeg)
+ ** Registration **
 
-![alt text](s3.jpeg)
+<img src="./Images/s5.jpeg" alt="drawing" height = "125%" width="75%"/>
+
+** Placing Order **
+
+<img src="./Images/s4.jpeg" alt="drawing" height = "125%" width="75%"/>
+
+** In Hindi Language **
+
+<img src="./Images/s1.jpeg" alt="drawing" height = "125%" width="75%"/>
+
+
+<img src="./Images/s3.jpeg" alt="drawing" height = "125%" width="75%"/>
 
 ### Prerequisities:
 - For using IBM Watson services you will need an IBM Cloud account
