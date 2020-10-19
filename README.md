@@ -61,6 +61,15 @@ The IVR module is an independent module that is not connected to the middleware.
 
 <img src="./Images/s3.jpeg" alt="drawing" height = "125%" width="75%"/>
 
+** Cloudant Database **
+
+<img src="./Images/s6.jpeg" alt="drawing" height = "75%" width="75%"/>
+
+<img src="./Images/s7.jpeg" alt="drawing" height = "75%" width="75%"/>
+
+<img src="./Images/s8.jpeg" alt="drawing" height = "75%" width="75%"/>
+
+
 ### Prerequisities:
 - For using IBM Watson services you will need an IBM Cloud account
 - For using SMS, Phone call &/or whatsapp services you will need a Twilio account
