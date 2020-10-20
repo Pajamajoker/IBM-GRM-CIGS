@@ -77,6 +77,21 @@ The IVR module is an independent module that is not connected to the middleware.
 - For using Translator, you will need an instance of IBM Watson Language Translator service
 - For using CloudantDB, you will need an instance of IBM Cloudant service
 
+###Configurations:
+
+- Install java jdk 11 
+- Install gradle 6.6.1*
+- Clone the project from master branch
+- Open application.properties and enter your twilio account credentials, IBM Cloud api key and service url, cloudant url, assistant id of IBM Watson Assistant, cloudant database credentials and respective database name under the respective variable names
+
+#####For Whatsapp configuration
+- Open twilio's WhatsApp console from here : https://www.twilio.com/console/sms/whatsapp/sandbox 
+and enter the whatsapp endpoint => {your-domain}/whatsapp/recv
+
+#####For SMS configuration
+- Open twilio's SMS console from here : https://www.twilio.com/console/sms/dashboard
+and enter the SMS endpoint => {your-domain}/sms/recv
+
 
 ### API reference:
 |  Endpoints | Description   | Method | Content Type
