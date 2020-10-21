@@ -17,6 +17,7 @@ import com.twilio.rest.api.v2010.account.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,9 @@ public class CloudantService {
 
     @Autowired
     private CloudantClient client;
+
+    @Value("${cloudant.dbname}")
+    private String dbname;
 
     private Logger logger = LoggerFactory.getLogger(CloudantService.class);
 
@@ -36,7 +40,7 @@ public class CloudantService {
 
    // @Async("threadPoolExecutor")
     public void insertDocument(MessageEntity messageEntity, String sessionId) {
-        Database database = client.database("practice_db", false);
+        Database database = client.database(dbname, false);
         Document document = new Document(messageEntity, sessionId);
         Response ID = database.save(document);
         logger.info("Saved message: " + document.toString() + " with ID " + ID);
