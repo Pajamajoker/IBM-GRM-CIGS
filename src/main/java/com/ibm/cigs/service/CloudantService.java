@@ -34,7 +34,7 @@ public class CloudantService {
         return instances;
     }
 
-    @Async("threadPoolExecutor")
+   // @Async("threadPoolExecutor")
     public void insertDocument(MessageEntity messageEntity, String sessionId) {
         Database database = client.database("practice_db", false);
         Document document = new Document(messageEntity, sessionId);
@@ -42,7 +42,7 @@ public class CloudantService {
         logger.info("Saved message: " + document.toString() + " with ID " + ID);
     }
 
-    @Async("threadPoolExecutor")
+   // @Async("threadPoolExecutor")
     public void insertDocument(MessageEntity messageEntity, String sessionId, String body) {
         Database database = client.database("practice_db", false);
         Document document = new Document(messageEntity, sessionId, body);

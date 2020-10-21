@@ -2,6 +2,7 @@ package com.ibm.cigs.service;
 
 import com.ibm.cigs.entity.MessageEntity;
 import com.ibm.cigs.interfaces.AssistantInterface;
+import com.ibm.cigs.interfaces.TranslationInterface;
 import com.ibm.cloud.sdk.core.security.Authenticator;
 import com.ibm.cloud.sdk.core.security.IamAuthenticator;
 import com.ibm.watson.assistant.v2.Assistant;
@@ -14,12 +15,13 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class WatsonService implements AssistantInterface {
     private Logger logger = LoggerFactory.getLogger(WatsonService.class);
     private HashMap<String, SessionResponse> sessionMap = new HashMap<>();
-
+    private TranslationInterface ob = new TranslationIBMService();
 
     @Value("${watson.apikey}")
     private String apikey;
@@ -54,8 +56,10 @@ public class WatsonService implements AssistantInterface {
             sessionId = session.getSessionId();
             System.out.println(phoneNumber);
             sessionMap.put(phoneNumber, session);
+            
+            return sessionId;
         }
-        return null;
+        //return null;
     }
 
 
@@ -63,14 +67,18 @@ public class WatsonService implements AssistantInterface {
     public String[] processMessage(MessageEntity messageEntity) throws Exception {
         String sessionId = getSession(messageEntity);
         Boolean isOver = isConversationOver(messageEntity);
-
+        
+        //translating text from user to English
+        String ipMessage = ob.translateToEnglish(messageEntity.getBody());
+        System.out.println(ipMessage);
+        String opMessage;
         String defaultResponse = "We're sorry, we do not know how to response to: \"" + messageEntity.getBody() + "\"\nWhat else can we help you with?";
         if (!isOver) {
             MessageInputOptions inputOptions = new MessageInputOptions.Builder()
                     .returnContext(true)
                     .build();
             MessageInput input = new MessageInput.Builder()
-                    .text(messageEntity.getBody())
+                    .text(ipMessage)
                     .options(inputOptions)
                     .build();
             // Start conversation with message from messageEntity.
@@ -81,21 +89,50 @@ public class WatsonService implements AssistantInterface {
             //print response from Watson to console, assumes single text response
             List<RuntimeResponseGeneric> responseGeneric = response.getOutput().getGeneric();
             
+            //Map for storing all the context variables from Watson
+            Map<String, Object> contextVariablesMap=new HashMap<String,Object>();
+            
+            //if userDefined context variables exist in Watson
+            if(response.getContext().skills().get("main skill").userDefined()!=null)
+            {
+            	//Get all context variables from Watson in a Map
+            	contextVariablesMap=response.getContext().skills().get("main skill").userDefined();
+            }
+            
+            
+            //Translating text from Watson to original language 
+            opMessage = ob.translateToOriginal(responseGeneric.get(0).text());
+            System.out.println(opMessage);
+            
+            
+             
             if(responseGeneric.size() > 0) {
-                return new String[]{sessionId, responseGeneric.get(0).text()};
+            	if(!contextVariablesMap.isEmpty() && contextVariablesMap.containsKey("submitted") && (contextVariablesMap.get("submitted").toString().equals("1.0"))) {
+            		// collected info from context variables returned in string format
+            		contextVariablesMap.remove("submitted");
+            		String contextVariables=contextVariablesMap.toString();
+            		
+            		return new String[] {sessionId,opMessage,contextVariables.toString()};
+
+//                return new String[]{sessionId, opMessage};
+            }
+            else
+                return new String[]{sessionId, opMessage,""};
             }else{
-                return new String[]{sessionId, defaultResponse};
+                return new String[]{sessionId, defaultResponse,""};
             }
         } else {
-            return new String[]{"", "Thank you for your time!"};
+            return new String[]{"", "Thank you for your time!",""};
         }
     }
 
     @Override
     public Boolean isConversationOver(MessageEntity messageEntity) throws Exception {
         String phoneNumber = messageEntity.getFrom();
-        String messageBody = messageEntity.getBody();
-        if (messageBody.equals("done") || messageBody.equals("Done")) {
+        
+        String messageBody = ob.translateToEnglish(messageEntity.getBody());
+        messageBody = messageBody.toLowerCase();
+        if (messageBody.equals("end conversation") || messageBody.equals("end") ||  messageBody.equals("done")) {
             DeleteSessionOptions deleteSessionOptions = new DeleteSessionOptions.Builder(assistantId, sessionId).build();
             assistant.deleteSession(deleteSessionOptions).execute();
             sessionMap.remove(phoneNumber);

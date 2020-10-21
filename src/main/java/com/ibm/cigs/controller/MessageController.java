@@ -1,6 +1,6 @@
 package com.ibm.cigs.controller;
 
-import java.io.IOException;
+//import java.io.IOException;
 
 import com.ibm.cigs.entity.MessageEntity;
 import com.ibm.cigs.service.CloudantService;
@@ -8,7 +8,7 @@ import com.ibm.cigs.service.MessageService;
 import com.ibm.cigs.service.WatsonService;
 import com.twilio.rest.api.v2010.account.Message;
 
-import jdk.nashorn.internal.runtime.regexp.joni.WarnCallback;
+//import jdk.nashorn.internal.runtime.regexp.joni.WarnCallback;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +36,10 @@ public class MessageController {
         cloudantService.insertDocument(messageEntity, sessionId);
         //dump outgoing message and session ID;
         cloudantService.insertDocument(messageEntity, sessionId, responses[1]);
+        //if information from assistant is collected in context variables
+        if(!responses[2].contentEquals(""))
+        cloudantService.insertDocument(messageEntity, sessionId, responses[2]);
+	
         return responses[1];
     }
 

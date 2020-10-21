@@ -24,6 +24,9 @@ dependencies {
 	compile group: "com.cloudant", name:"cloudant-spring-boot-starter", version:"0.0.3"
 	compile 'com.ibm.watson:assistant:8.5.0'
 	compile 'com.ibm.watson:ibm-watson:8.5.0'
+	compile 'com.ibm.watson:ibm-watson:8.6.0'
+	compile 'com.google.cloud:google-cloud-translate:1.95.2'
+	
 }
 
 test {
